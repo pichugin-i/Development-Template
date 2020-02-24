@@ -20,4 +20,4 @@
 cmake -DCMAKE_CXX_FLAGS=/D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING -G "Visual Studio 15 2017" <path to sourse files>
  
 ## Table with results
-https://docs.google.com/spreadsheets/d/13DTrH4Rbk5AZt6FhW_V7x2uIs4Mv9kiON-GnYClocWk/edit#gid=0
+https://docs.google.com/spreadsheets/d/13DTrH4Rbk5AZt6FhW_V7x2uIs4Mv9kiON-GnYClocWk/edit?usp=sharing
