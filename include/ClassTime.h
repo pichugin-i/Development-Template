@@ -23,67 +23,11 @@ public:
   bool operator==(const Time& c); // перегруженный оператор сравнения
   Time operator+(const Time& c); // перегруженный оператор сложения
   Time operator-(const Time& c); // перегруженный оператор вычитания
-  void null(int n) {
-    if (n < 10) {
-      cout << "0" << n;
-    }
-    else {
-      cout << n;
-    }
-  }
-  void Show()
-  {
-    proverka();
-    null(hour);
-    cout << ":";
-    null(minut);
-    cout << ":";
-    null(sec);
-  }
-  void plustime() {
-    for (int i = 0; i < 4; i++) {
-      cout << "Исходное время(Идёт вперед: операция перегрузки +):" << endl;
-      Show();
-      Sleep(1000); // задержка в 1 сек.
-      sec = sec + 1;
-      system("cls");
-      proverka();
-    }
-  }
-  void minustime() {
-    for (int i = 0; i < 4; i++) {
-      cout << "Исходное время(Идёт назад: операция перегрузки -):" << endl;
-      Show();
-      Sleep(1000); // задержка в 1 сек.
-      sec = sec - 1;
-      system("cls");
-      proverka();
-    }
-  }
-  void proverka() {
-    while (sec > 59) {
-      sec = sec - 60;
-      minut++;
-    }
-    while (minut > 59) {
-      minut = minut - 60;
-      hour++;
-    }
-    while (hour > 23) {
-      hour = hour - 24;
-    }
-    while (sec < 0) {
-      sec = 59;
-      minut--;
-    }
-    while (minut < 0) {
-      minut = 59;
-      hour--;
-    }
-    while (hour < 0) {
-      hour = 23;
-    }
-  }
+  void null(int n);
+  void Show();
+  void plustime();
+  void minustime();
+  void proverka();
 
   friend ostream& operator << (ostream& stream, const Time& a);
   friend istream& operator >> (istream& stream, Time& a);
