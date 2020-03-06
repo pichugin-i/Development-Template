@@ -147,7 +147,7 @@ Time Time::operator-(const Time& c) {
   return res;
 }
 
-int wibor(int w) {
+int Time::wibor(int w) {
   while (w < 1 || w > 2) {
     cout << "\nВведите правильно. 1 - Изменить время, 2 - Выйти." << endl;
     cout << "Ввод: ";
