@@ -1,14 +1,5 @@
 #include <gtest/gtest.h>
-#include "add.h"
-
-TEST(Addition, CanAddTwoPositiveNumbers) {
-  EXPECT_EQ(add(5, 5), 10);
-}
-
-TEST(Addition, CanAddTwoNumbersDifferentSign) {
-  EXPECT_EQ(add(-5, 5), 0);
-}
-
-TEST(Addition, CanAddTwoNegativeNumbers) {
-  EXPECT_EQ(add(-5, -5), -10);
+int main(int ac, char* av[]) {
+  testing::InitGoogleTest(&ac, av);
+  return RUN_ALL_TESTS();
 }
