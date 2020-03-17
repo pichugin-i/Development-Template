@@ -1,5 +1,22 @@
 #include <gtest/gtest.h>
-int main(int ac, char* av[]) {
-  testing::InitGoogleTest(&ac, av);
-  return RUN_ALL_TESTS();
+#include "add.h"
+
+TEST(decimal, CandecimalPrisvaivaemdecimal) {
+  decimal t1("111");
+  decimal t2("222");
+  decimal t3("222");
+  decimal res = t1 = t2;
+  EXPECT_EQ(res, t3);
+}
+
+TEST(decimal, CandecimalSravneniedecimal) {
+  decimal t1 = "223";
+  decimal t2 = "223";
+  bool res;
+  if (t1 == t2) {
+    res = 1;
+  } else {
+    res = 0;
+  }
+  EXPECT_EQ(res, 1);
 }
