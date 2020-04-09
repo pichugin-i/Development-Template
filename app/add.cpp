@@ -7,12 +7,12 @@ TextEditor::TextEditor() {
   y = 1;
 }
 
-void TextEditor::options() {
+int TextEditor::options() {
   HWND window_header = GetConsoleWindow();
   SetWindowPos(window_header, HWND_TOP, 10, 10, 1000, 600, NULL);
-  int op1;
+  int op5 = 5;
+  int hir, vis;
   do {
-    op1 = 5;
     position(50, 15);
     cout << "Настройки <Размер окна>:";
     position(50, 16);
@@ -25,23 +25,25 @@ void TextEditor::options() {
     cout << "<4> Выбрать размер самостоятельно.";
     position(50, 20);
     cout << "Выбор: ";
-    cin >> op1;
+    cin >> op5;
     system("CLS");
-  } while (op1 < 1 || op1>4);
-  if (op1 == 1) {
+  } while (op5 < 1 || op5>4);
+  if (op5 == 1) {
+    hir = 600;
     HWND window_header = GetConsoleWindow();
-    SetWindowPos(window_header, HWND_TOP, 430, 100, 600, 230, NULL);
+    SetWindowPos(window_header, HWND_TOP, 430, 100, hir, 230, NULL);
   }
-  if (op1 == 2) {
+  if (op5 == 2) {
+    hir = 1000;
     HWND window_header = GetConsoleWindow();
-    SetWindowPos(window_header, HWND_TOP, 50, 50, 1000, 600, NULL);
+    SetWindowPos(window_header, HWND_TOP, 50, 50, hir, 600, NULL);
   }
-  if (op1 == 3) {
+  if (op5 == 3) {
+    hir = 1500;
     HWND window_header = GetConsoleWindow();
-    SetWindowPos(window_header, HWND_TOP, 10, 10, 1500, 800, NULL);
+    SetWindowPos(window_header, HWND_TOP, 10, 10, hir, 800, NULL);
   }
-  int hir, vis;
-  if (op1 == 4) {
+  if (op5 == 4) {
     do {
       position(45, 15);
       cout << "<Ширина>x<высота> не должны превышать <1500>x<800>";
@@ -51,7 +53,7 @@ void TextEditor::options() {
       cout << "Введите ШИРИНУ окна в пикселях: ";
       cin >> hir;
       system("CLS");
-    } while (hir > 1500 || hir < 600);
+    } while (hir > 1500 || hir < 230);
     do {
       position(45, 15);
       cout << "<Ширина>x<высота> не должны превышать <1500>x<800>";
@@ -67,7 +69,7 @@ void TextEditor::options() {
   }
   int xx, yy;
 
-  if (op1 == 1) {
+  if (op5 == 1) {
     do {
       position(22, 4);
       cout << "Настройки <Позиция окна>:";
@@ -95,7 +97,7 @@ void TextEditor::options() {
     HWND window_header = GetConsoleWindow();
     SetWindowPos(window_header, HWND_TOP, xx, yy, 600, 230, NULL);
   }
-  if (op1 == 2) {
+  if (op5 == 2) {
     do {
       position(50, 15);
       cout << "Настройки <Позиция окна>:";
@@ -123,7 +125,7 @@ void TextEditor::options() {
     HWND window_header = GetConsoleWindow();
     SetWindowPos(window_header, HWND_TOP, xx, yy, 1000, 600, NULL);
   }
-  if (op1 == 3) {
+  if (op5 == 3) {
     do {
       position(85, 18);
       cout << "Настройки <Позиция окна>:";
@@ -151,7 +153,7 @@ void TextEditor::options() {
     HWND window_header = GetConsoleWindow();
     SetWindowPos(window_header, HWND_TOP, xx, yy, 1500, 800, NULL);
   }
-  if (op1 == 4) {
+  if (op5 == 4) {
     do {
       position(5, 5);
       cout << "Настройки <Позиция окна>:";
@@ -179,6 +181,7 @@ void TextEditor::options() {
     HWND window_header = GetConsoleWindow();
     SetWindowPos(window_header, HWND_TOP, xx, yy, hir, vis, NULL);
   }
+  return hir;
 }
 
 void TextEditor::position(int xpos, int ypos) {
@@ -235,5 +238,48 @@ void TextEditor::showw(char *str) {
   } while (ab != 2);
   if (ab == 2) {
     system("pause");
+  }
+}
+
+void TextEditor::iftext(char *str, int hir1) {
+  //cout << "<1> Маленькое *600x230*";
+  //position(50, 17);
+  //cout << "<2> Среднее *1000x600*";
+  //position(50, 18);
+  //cout << "<3> Большое *1500x800*";
+  if (hir1 == 600) {
+    cin.getline(str, 76, '.');
+  }
+  else {
+    if (hir1 == 1000) {
+      cin.getline(str, 131, '.');
+    }
+    else {
+      if (hir1 == 1500) {
+        cin.getline(str, 201, '.');
+      }
+      else {
+        if (hir1 < 800) {
+          double k = 7.75;
+          cin.getline(str, hir1 / k, '.');
+        }
+        else {
+          if (hir1 < 1000 && hir1 >= 800) {
+            double k = 7.68;
+            cin.getline(str, hir1 / k, '.');
+          }
+          else {
+            if (hir1 < 1200 && hir1 >= 1000) {
+              double k = 7.57;
+              cin.getline(str, hir1 / k, '.');
+            }
+            else {
+              double k = 7.48;
+              cin.getline(str, hir1 / k, '.');
+            }
+          }
+        }
+      }
+    }
   }
 }

@@ -17,10 +17,11 @@ private:
   int x;
   int y;
 public:
-  void options();
+  int options();
   void position(int xpos, int ypos);
   void TXT();
   void showw(char *str);
+  void iftext(char *str, int hir1);
   TextEditor();
   TextEditor(const TextEditor &c);
   TextEditor(int _x, int _y);
