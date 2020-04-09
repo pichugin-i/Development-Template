@@ -3,7 +3,6 @@
 #pragma once
 #include <iostream>
 #include <clocale>
-#include "Header.h"
 #include <conio.h>
 #include <fstream>
 #include <cstdlib>
@@ -28,3 +27,4 @@ public:
   friend ostream& operator << (ostream& stream, const TextEditor& a);
   friend istream& operator >> (istream& stream, TextEditor& a);
 };
+#endif  // INCLUDE_ADD_H_
