@@ -242,11 +242,6 @@ void TextEditor::showw(char *str) {
 }
 
 void TextEditor::iftext(char *str, int hir1) {
-  //cout << "<1> Маленькое *600x230*";
-  //position(50, 17);
-  //cout << "<2> Среднее *1000x600*";
-  //position(50, 18);
-  //cout << "<3> Большое *1500x800*";
   if (hir1 == 600) {
     cin.getline(str, 76, '.');
   }
