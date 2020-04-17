@@ -23,7 +23,7 @@ TEST(decimal, copirovanie) {
   EXPECT_EQ(t1, t2);
 }
 
-TEST(decimal, Candecimalminus) {
+TEST(decimal, Candecimalprisvaivanie) {
   decimal t1("111");
   decimal t2("222");
   decimal t3("222");
