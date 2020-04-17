@@ -1,7 +1,29 @@
 #include <gtest/gtest.h>
 #include "add.h"
 
-TEST(decimal, CandecimalPrisvaivaemdecimal) {
+TEST(decimal, Candecimalplus) {
+  decimal t1("2030");
+  decimal t2("130");
+  decimal t3("2160");
+  decimal res = t1 + t2;
+  EXPECT_EQ(res, t3);
+}
+
+TEST(decimal, Candecimalminus) {
+  decimal t1("1511");
+  decimal t2("611");
+  decimal t3("900");
+  decimal res = t1 - t2;
+  EXPECT_EQ(res, t3);
+}
+
+TEST(decimal, copirovanie) {
+  decimal t1 = "224";
+  decimal t2(t1);
+  EXPECT_EQ(t1, t2);
+}
+
+TEST(decimal, Candecimalminus) {
   decimal t1("111");
   decimal t2("222");
   decimal t3("222");
@@ -19,11 +41,5 @@ TEST(decimal, CandecimalSravneniedecimal) {
     res = 0;
   }
   EXPECT_EQ(res, 1);
-}
-
-TEST(decimal, copirovanie) {
-  decimal t1 = "224";
-  decimal t2(t1);
-  EXPECT_EQ(t1, t2);
 }
 
