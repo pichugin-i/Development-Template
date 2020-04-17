@@ -20,3 +20,10 @@ TEST(decimal, CandecimalSravneniedecimal) {
   }
   EXPECT_EQ(res, 1);
 }
+
+TEST(decimal, copirovanie) {
+  decimal t1 = "224";
+  decimal t2(t1);
+  EXPECT_EQ(t1, t2);
+}
+

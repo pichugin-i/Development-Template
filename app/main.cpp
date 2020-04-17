@@ -1,31 +1,29 @@
-#include <iostream>
-#include <clocale>
-#include <fstream>
 #include "add.h"
-using namespace std;
+
 int main()
 {
   setlocale(LC_ALL, "Russian");
-  decimal a = "1123";
-  decimal b = "2224";
+
+  decimal a = "24";
+  decimal b = "21";
+  decimal res;
   cout << "Первое число = " << a << endl;
   cout << "Второе число = " << b << endl;
   if (a == b) {
-    cout << "Они равны." << endl;
+    cout << "Они равны." << endl << endl;
   }
   else {
-    cout << "Они не равны" << endl;
+    cout << "Они не равны" << endl << endl;
   }
   cout << "Их сложение:" << endl;
   cout << a << " + " << b << " = ";
 
-  cout << endl;
-
-
+  cout << endl << endl;
 
   cout << "Их вычитание:" << endl;
   cout << a << " - " << b << " = ";
 
   cout << endl;
+
   return 0;
 }
