@@ -1,6 +1,9 @@
 #include "add.h"
-#include <iostream>
 
 int main() {
-  std::cout << "5 + 5 = " << add(5, 5) << std::endl;
+  setlocale(LC_ALL, "Russian");
+  Pedometer menu;
+  int count = 0;
+  menu.menu();
+  return 0;
 }
