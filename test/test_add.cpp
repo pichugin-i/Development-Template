@@ -26,25 +26,25 @@ TEST(decimal, plusperviemenshevtorogoosnova) {
 }
 
 TEST(decimal, pluspervoebolshevtorogocount1) {
-  decimal t1("39");
+  decimal t1("99");
   decimal t2("9");
-  decimal t3("48");
+  decimal t3("108");
   decimal res = t1 + t2;
   EXPECT_EQ(res, t3);
 }
 
 TEST(decimal, plusravniecount1) {
-  decimal t1("29");
+  decimal t1("99");
   decimal t2("22");
-  decimal t3("51");
+  decimal t3("121");
   decimal res = t1 + t2;
   EXPECT_EQ(res, t3);
 }
 
 TEST(decimal, plusperviemenshevtorogocount1) {
   decimal t1("15");
-  decimal t2("129");
-  decimal t3("144");
+  decimal t2("999");
+  decimal t3("1014");
   decimal res = t1 + t2;
   EXPECT_EQ(res, t3);
 }
@@ -97,7 +97,7 @@ TEST(decimal, minusosnovapervoebolshevtorogo) {
   EXPECT_EQ(res, t3);
 }
 
-TEST(decimal, minuspervoebolshevtorogocount1) {
+TEST(decimal, minuspervoebolshevtorogocountm) {
   decimal t1("155");
   decimal t2("89");
   decimal t3("66");
@@ -121,7 +121,7 @@ TEST(decimal, minusravniecount0) {
   EXPECT_EQ(res, t3);
 }
 
-TEST(decimal, minusravniecount1) {
+TEST(decimal, minusravniecountm) {
   decimal t1("222");
   decimal t2("199");
   decimal t3("23");
@@ -137,10 +137,10 @@ TEST(decimal, minuspervoemenshevtorogocount0) {
   EXPECT_EQ(res, t3);
 }
 
-TEST(decimal, minuspervoemenshevtorogocount1) {
-  decimal t1("22");
+TEST(decimal, minuspervoemenshevtorogocountm) {
+  decimal t1("99");
   decimal t2("191");
-  decimal t3("169");
+  decimal t3("92");
   decimal res = t1 - t2;
   EXPECT_EQ(res, t3);
 }
