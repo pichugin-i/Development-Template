@@ -22,6 +22,7 @@ public:
   void maxmonth(Date *num, int count);
   void infile(Date *num, int count);
   void outfile(Date *num, int count);
+  void onedate(Date *num, int count);
 };
 
 class Pedometer {
@@ -31,5 +32,4 @@ private:
 public:
   void menu();
 };
-
 #endif  // INCLUDE_ADD_H_
