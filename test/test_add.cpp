@@ -1,11 +1,25 @@
 #include <gtest/gtest.h>
 #include "add.h"
 
-TEST(TextEditor, outputtext) {
-  TextEditor wind;
-
-  EXPECT_EQ();
+TEST(TextEditor, positionpositive) {
+  TextEditor pos;
+  ASSERT_NO_THROW(pos.position(5, 5));
 }
 
-// подскажите какие тесты написать... ((  Знаю как сделать это с операциями
-// + - = == и т.п., но остальное(в моём случае эта программа - без понятия что можно тестить)
+TEST(TextEditor, positionnegative) {
+  TextEditor pos;
+  ASSERT_ANY_THROW(pos.position(-5, -5));
+}
+
+TEST(TextEditor, constructorinitialization) {
+  ASSERT_NO_THROW(TextEditor init(10, 10));
+}
+
+TEST(TextEditor, constructordeff) {
+  ASSERT_NO_THROW(TextEditor init());
+}
+
+TEST(TextEditor, hirvisnegative) {
+  TextEditor hv;
+  ASSERT_ANY_THROW(hv.iftext("text", 20));
+}

@@ -190,6 +190,8 @@ void TextEditor::position(int xpos, int ypos) {
   cursorPos.X = xpos;
   cursorPos.Y = ypos;
   SetConsoleCursorPosition(hStdOut, cursorPos);
+  if (xpos <= 0 || ypos <= 0)
+    throw logic_error("Input error xpos ypos");
 }
 
 TextEditor::TextEditor(int _x, int _y) {
@@ -242,35 +244,40 @@ void TextEditor::showw(char *str) {
 }
 
 void TextEditor::iftext(char *str, int hir1) {
-  if (hir1 == 600) {
-    cin.getline(str, 76, '.');
+  if (hir1 < 600 || hir1>1500) {
+    throw logic_error("Error diaposon window text");
   }
   else {
-    if (hir1 == 1000) {
-      cin.getline(str, 131, '.');
+    if (hir1 == 600) {
+      cin.getline(str, 76, '.');
     }
     else {
-      if (hir1 == 1500) {
-        cin.getline(str, 201, '.');
+      if (hir1 == 1000) {
+        cin.getline(str, 131, '.');
       }
       else {
-        if (hir1 < 800) {
-          double k = 7.75;
-          cin.getline(str, hir1 / k, '.');
+        if (hir1 == 1500) {
+          cin.getline(str, 201, '.');
         }
         else {
-          if (hir1 < 1000 && hir1 >= 800) {
-            double k = 7.68;
+          if (hir1 < 800) {
+            double k = 7.75;
             cin.getline(str, hir1 / k, '.');
           }
           else {
-            if (hir1 < 1200 && hir1 >= 1000) {
-              double k = 7.57;
+            if (hir1 < 1000 && hir1 >= 800) {
+              double k = 7.68;
               cin.getline(str, hir1 / k, '.');
             }
             else {
-              double k = 7.48;
-              cin.getline(str, hir1 / k, '.');
+              if (hir1 < 1200 && hir1 >= 1000) {
+                double k = 7.57;
+                cin.getline(str, hir1 / k, '.');
+              }
+              else {
+                double k = 7.48;
+                cin.getline(str, hir1 / k, '.');
+              }
             }
           }
         }
