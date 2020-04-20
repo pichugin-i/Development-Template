@@ -1,10 +1,101 @@
 #include "add.h"
 
+Date::Date() {
+  for (int i = 0; i < 2; i++) {
+    h_s[i] = 0;
+    h_e[i] = 0;
+  }
+  for (int i = 0; i < 3; i++) {
+    data[i] = 0;
+  }
+  st = 0;
+}
+
+Date::~Date() {
+  for (int i = 0; i < 2; i++) {
+    h_s[i] = 0;
+    h_e[i] = 0;
+  }
+  for (int i = 0; i < 3; i++) {
+    data[i] = 0;
+  }
+  st = 0;
+}
+
+Date Date::operator=(Date &c) {
+  for (int i = 0; i < 2; i++) {
+    h_s[i] = c.h_s[i];
+    h_e[i] = c.h_e[i];
+  }
+  for (int i = 0; i < 3; i++) {
+    data[i] = c.data[i];
+  }
+  st = c.st;
+  return *this;
+}
+
+Date::Date(int *_h_s, int *_h_e, int *_data, int _st) {
+  for (int i = 0; i < 2; i++) {
+    h_s[i] = _h_s[i];
+    h_e[i] = _h_e[i];
+  }
+  for (int i = 0; i < 3; i++) {
+    data[i] = _data[i];
+  }
+  st = _st;
+}
+
+Pedometer::Pedometer() {
+  count = 0;
+  num = new Date[count];
+}
+
+Pedometer::~Pedometer() {
+  count = 0;
+  delete[] num;
+}
+
+Pedometer::Pedometer(int *_h_s, int *_h_e, int *_data, int _st) {
+  for (int i = 0; i < 2; i++) {
+    num[0].h_s[i] = _h_s[i];
+    num[0].h_e[i] = _h_e[i];
+  }
+  for (int i = 0; i < 3; i++) {
+    num[0].data[i] = _data[i];
+  }
+  num[0].st = _st;
+}
+
+//bool Pedometer::operator==(Pedometer & c)
+//{
+//  return false;
+//}
+
+Pedometer Pedometer::operator=(Pedometer &c) {
+  if (count != c.count) {
+    delete[] num;
+    num = new Date[count];
+  }
+  count = c.count;
+  for (int i = 0; i < count; i++) {
+    num[i] = c.num[i];
+  }
+  for (int i = 0; i < count; i++) {
+    num[i].h_s[i] = c.num[i].h_s[i];
+    num[i].h_e[i] = c.num[i].h_e[i];
+    num[i].st = c.num[i].st;
+    for (int j = 0; j < 3; j++)
+      num[i].data[j] = c.num[i].data[j];
+  }
+  delete[] c.num;
+  return *this;
+}
+
 void Pedometer::menu() {
   int w = 0;
-  num[count].setdate(num, count);
+  setdate(count);
   count++;
-  num[count].infile(num, count);
+  infile(count);
   while (w != 8) {
     do {
       cout << "Меню управления вашим шагомером:" << endl;
@@ -23,26 +114,26 @@ void Pedometer::menu() {
       }
     } while (w < 1 || w>8);
     if (w == 1) {
-      num[count].setdate(num, count);
+      setdate(count);
       count++;
     }
     if (w == 2) {
-      num[count].info(num, count);
+      info(count);
     }
     if (w == 3) {
-      num[count].srmonth(num, count);
+      srmonth(count);
     }
     if (w == 4) {
-      num[count].maxmonth(num, count);
+      maxmonth(count);
     }
     if (w == 5) {
-      num[count].infile(num, count);
+      infile(count);
     }
     if (w == 6) {
-      num[count].outfile(num, count);
+      outfile(count);
     }
     if (w == 7) {
-      num[0].onedate(num, count);
+      onedate(count);
     }
     if (w == 8) {
       system("pause");
@@ -50,7 +141,8 @@ void Pedometer::menu() {
   }
 }
 
-void Date::onedate(Date *num, int count) {
+void Pedometer::onedate(int count) {
+
   cout << endl << "Начальная дата первого подсчёта: ";
   if (num[0].data[0] < 10) {
     cout << "0" << num[0].data[0];
@@ -65,7 +157,7 @@ void Date::onedate(Date *num, int count) {
     cout << ":" << num[0].data[1];
   }
   cout << ":" << num[0].data[2] << endl;
-  if (h_s[0] < 10) {
+  if (num[0].h_s[0] < 10) {
     cout << "Время начала|окончания движения: " << "0" << num[0].h_s[0];
   }
   else {
@@ -92,7 +184,7 @@ void Date::onedate(Date *num, int count) {
   cout << "Шагов сделано за данный период: " << num[0].st << endl << endl;
 }
 
-void Date::infile(Date *num, int count) {
+void Pedometer::infile(int count) {
   ofstream in;
   in.open("Info.txt");
   for (int i = 0; i < count; i++) {
@@ -125,13 +217,13 @@ void Date::infile(Date *num, int count) {
         in << "Начальное время начала|окончания движения: " << num[i].h_s[0];
       else in << "Время начала|окончания движения: " << num[i].h_s[0];
     }
-    if (h_s[1] < 10) {
+    if (num[i].h_s[1] < 10) {
       in << ":" << "0" << num[i].h_s[1] << " | ";
     }
     else {
       in << ":" << num[i].h_s[1] << " | ";
     }
-    if (h_e[0] < 10) {
+    if (num[i].h_e[0] < 10) {
       in << "0" << num[i].h_e[0] << ":";
     }
     else {
@@ -148,7 +240,7 @@ void Date::infile(Date *num, int count) {
   in.close();
 }
 
-void Date::outfile(Date *num, int count) {
+void Pedometer::outfile(int count) {
   string str;
   ifstream out("Info.txt");
   if (!out.is_open()) {
@@ -164,7 +256,7 @@ void Date::outfile(Date *num, int count) {
   out.close();
 }
 
-void Date::srmonth(Date *num, int count) {
+void Pedometer::srmonth(int count) {
   Date mon;
   int k = 0;
   int res = 0;
@@ -220,7 +312,7 @@ void Date::srmonth(Date *num, int count) {
   }
 }
 
-void Date::maxmonth(Date *num, int count) {
+void Pedometer::maxmonth(int count) {
   Date mon;
   int *steep = new int;
   int k = 0;
@@ -277,7 +369,7 @@ void Date::maxmonth(Date *num, int count) {
   }
 }
 
-void Date::info(Date *num, int count) {
+void Pedometer::info(int count) {
   Date get;
   cout << "Введите дату, чтобы получить информацию о подсчётах. День,Месяц,Год:" << endl;
   do {
@@ -351,7 +443,7 @@ void Date::info(Date *num, int count) {
         else {
           cout << ":" << num[i].h_s[1] << " | ";
         }
-        if (h_e[0] < 10) {
+        if (num[i].h_e[0] < 10) {
           cout << "0" << num[i].h_e[0] << ":";
         }
         else {
@@ -372,7 +464,7 @@ void Date::info(Date *num, int count) {
   }
 }
 
-void Date::setdate(Date *num, int count) {
+void Pedometer::setdate(int count) {
   if (count == 0) {
     cout << "Введите начальную дату. День,Месяц,Год:" << endl;
   }
@@ -388,18 +480,18 @@ void Date::setdate(Date *num, int count) {
   } while (num[count].data[0] < 1 || num[count].data[0] > 31);
   do {
     cout << "Месяц[1-12]: ";
-    cin >> data[1];
-    if (data[1] < 1 || data[1] > 12) {
+    cin >> num[count].data[1];
+    if (num[count].data[1] < 1 || num[count].data[1] > 12) {
       cout << "Всего 12 календарных месяцев. Введите месяц от 1 до 12:" << endl;
     }
-  } while (data[1] < 1 || data[1] > 12);
+  } while (num[count].data[1] < 1 || num[count].data[1] > 12);
   do {
     cout << "Год[Формат YYYY]: ";
-    cin >> data[2];
-    if (data[2] < 1000 || data[2] > 9999) {
+    cin >> num[count].data[2];
+    if (num[count].data[2] < 1000 || num[count].data[2] > 9999) {
       cout << "Введенный вами формат не соответствует с форматом длины YYYY, повторите:" << endl;
     }
-  } while (data[2] < 1000 || data[2] > 9999);
+  } while (num[count].data[2] < 1000 || num[count].data[2] > 9999);
   if (count == 0) {
     cout << "Введите начальное время активности. Час, минута (начала движения)" << endl;
   }
@@ -408,18 +500,18 @@ void Date::setdate(Date *num, int count) {
   }
   do {
     cout << "Час[0-23]: ";
-    cin >> h_s[0];
-    if (h_s[0] < 0 || h_s[0] > 23) {
+    cin >> num[count].h_s[0];
+    if (num[count].h_s[0] < 0 || num[count].h_s[0] > 23) {
       cout << "Введенное время(Час) не соответствует формату от 0 до 23, повторите:" << endl;
     }
-  } while (h_s[0] < 0 || h_s[0] > 23);
+  } while (num[count].h_s[0] < 0 || num[count].h_s[0] > 23);
   do {
     cout << "Минута[0-59]: ";
-    cin >> h_s[1];
-    if (h_s[1] < 0 || h_s[1] > 59) {
+    cin >> num[count].h_s[1];
+    if (num[count].h_s[1] < 0 || num[count].h_s[1] > 59) {
       cout << "Введенное время(Минута) не соответствует формату от 0 до 59, повторите:" << endl;
     }
-  } while (h_s[1] < 0 || h_s[1] > 59);
+  } while (num[count].h_s[1] < 0 || num[count].h_s[1] > 59);
   if (count == 0) {
     cout << "Введите начальное время активности. Час, минута (окончания движения)" << endl;
   }
@@ -428,25 +520,25 @@ void Date::setdate(Date *num, int count) {
   }
   do {
     cout << "Час[0-23]: ";
-    cin >> h_e[0];
-    if (h_e[0] < 0 || h_e[0] > 23) {
+    cin >> num[count].h_e[0];
+    if (num[count].h_e[0] < 0 || num[count].h_e[0] > 23) {
       cout << "Введенное время(Час) не соответствует формату от 0 до 23, повторите:" << endl;
     }
-  } while (h_e[0] < 0 || h_e[0] > 23);
+  } while (num[count].h_e[0] < 0 || num[count].h_e[0] > 23);
   do {
     cout << "Минута[0-59]: ";
-    cin >> h_e[1];
-    if (h_e[1] < 0 || h_e[1] > 59) {
+    cin >> num[count].h_e[1];
+    if (num[count].h_e[1] < 0 || num[count].h_e[1] > 59) {
       cout << "Введенное время(Минута) не соответствует формату от 0 до 59, повторите:" << endl;
     }
-  } while (h_e[1] < 0 || h_e[1] > 59);
+  } while (num[count].h_e[1] < 0 || num[count].h_e[1] > 59);
   cout << "Введите количество пройденных шагов за указанный период времени:" << endl;
   do {
-    cin >> st;
-    if (st < 0) {
+    cin >> num[count].st;
+    if (num[count].st < 0) {
       cout << "Введенное вами количество шагов не может быть отрицательным, повторите:" << endl;
     }
-  } while (st < 0);
+  } while (num[count].st < 0);
   system("CLS");
   if (count == 0) {
     cout << "Введенные вами начальные(первые) данные:" << endl;
@@ -455,42 +547,42 @@ void Date::setdate(Date *num, int count) {
     cout << "Введенные вами данные:" << endl;
   }
   cout << "Дата: ";
-  if (data[0] < 10) {
-    cout << "0" << data[0];
+  if (num[count].data[0] < 10) {
+    cout << "0" << num[count].data[0];
   }
   else {
-    cout << data[0];
+    cout << num[count].data[0];
   }
-  if (data[1] < 10) {
-    cout << ":" << "0" << data[1];
-  }
-  else {
-    cout << ":" << data[1];
-  }
-  cout << ":" << data[2] << endl;
-  if (h_s[0] < 10) {
-    cout << "Время начала|окончания движения: " << "0" << h_s[0];
+  if (num[count].data[1] < 10) {
+    cout << ":" << "0" << num[count].data[1];
   }
   else {
-    cout << "Время начала|окончания движения: " << h_s[0];
+    cout << ":" << num[count].data[1];
   }
-  if (h_s[1] < 10) {
-    cout << ":" << "0" << h_s[1] << " | ";
-  }
-  else {
-    cout << ":" << h_s[1] << " | ";
-  }
-  if (h_e[0] < 10) {
-    cout << "0" << h_e[0] << ":";
+  cout << ":" << num[count].data[2] << endl;
+  if (num[count].h_s[0] < 10) {
+    cout << "Время начала|окончания движения: " << "0" << num[count].h_s[0];
   }
   else {
-    cout << h_e[0] << ":";
+    cout << "Время начала|окончания движения: " << num[count].h_s[0];
   }
-  if (h_e[1] < 10) {
-    cout << "0" << h_e[1] << endl;
+  if (num[count].h_s[1] < 10) {
+    cout << ":" << "0" << num[count].h_s[1] << " | ";
   }
   else {
-    cout << h_e[1] << endl;
+    cout << ":" << num[count].h_s[1] << " | ";
   }
-  cout << "Шагов сделано за данный период: " << st << endl << endl;
+  if (num[count].h_e[0] < 10) {
+    cout << "0" << num[count].h_e[0] << ":";
+  }
+  else {
+    cout << num[count].h_e[0] << ":";
+  }
+  if (num[count].h_e[1] < 10) {
+    cout << "0" << num[count].h_e[1] << endl;
+  }
+  else {
+    cout << num[count].h_e[1] << endl;
+  }
+  cout << "Шагов сделано за данный период: " << num[count].st << endl << endl;
 }

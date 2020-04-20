@@ -10,26 +10,36 @@
 using namespace std;
 
 class Date {
+  friend class Pedometer;
 private:
   int h_s[2];
   int h_e[2];
   int data[3];
   int st;
 public:
-  void setdate(Date *num, int count);
-  void info(Date *num, int count);
-  void srmonth(Date *num, int count);
-  void maxmonth(Date *num, int count);
-  void infile(Date *num, int count);
-  void outfile(Date *num, int count);
-  void onedate(Date *num, int count);
+  Date();
+  ~Date();
+  Date(int *_h_s, int *_h_e, int *_data, int _st);
+  Date operator=(Date &c);
 };
 
 class Pedometer {
 private:
   int count = 0;
-  Date *num = new Date[10000];
+  Date *num;
 public:
+  Pedometer();
+  ~Pedometer();
+  Pedometer(int *h_s, int *h_e, int *data, int st);
+  //bool operator==(Pedometer &c);
+  Pedometer operator=(Pedometer &c);
+  void setdate(int count);
+  void info(int count);
+  void srmonth(int count);
+  void maxmonth(int count);
+  void infile(int count);
+  void outfile(int count);
+  void onedate(int count);
   void menu();
 };
 #endif  // INCLUDE_ADD_H_
