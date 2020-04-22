@@ -12,14 +12,19 @@ using namespace std;
 class Date {
   friend class Pedometer;
 private:
-  int h_s[2];
-  int h_e[2];
-  int data[3];
+  int* h_s;
+  int* h_e;
+  int* data;
   int st;
 public:
   Date();
   ~Date();
   Date(int *_h_s, int *_h_e, int *_data, int _st);
+  Date(const Date &c);
+
+  void getdate();
+  void inpsetdate();
+
   Date operator=(Date &c);
 };
 
@@ -31,15 +36,16 @@ public:
   Pedometer();
   ~Pedometer();
   Pedometer(int *h_s, int *h_e, int *data, int st);
+  Pedometer(const Pedometer &c);
   Pedometer operator=(Pedometer &c);
-  void setdate(int count);
+  void setdate(Date new_data);
   void info(int count);
   void srmonth(int count);
   void maxmonth(int count);
   void infile(int count);
-  void outfile(int count);
-  void onedate(int count);
-  void inpsetdate(int count);
+  void outfile();
+  void onedate();
+
   int inpmonth(int count);
   int inpinfoday(int count);
   int inpinfomonth(int count);

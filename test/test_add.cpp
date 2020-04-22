@@ -1,4 +1,4 @@
 #include <gtest/gtest.h>
 #include "add.h"
 
-//В процессе.
+//Приступать к тестам?
