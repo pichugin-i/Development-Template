@@ -66,14 +66,9 @@ Pedometer::Pedometer(int *_h_s, int *_h_e, int *_data, int _st) {
   num[0].st = _st;
 }
 
-//bool Pedometer::operator==(Pedometer & c)
-//{
-//  return false;
-//}
-
 Pedometer Pedometer::operator=(Pedometer &c) {
   if (count != c.count) {
-    delete[] num;
+    //delete[] num;
     num = new Date[count];
   }
   count = c.count;
