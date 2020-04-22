@@ -13,7 +13,6 @@ using namespace std;
 
 class TextEditor {
 private:
-  // x,y-позиция ввода текста, len - длина ввода текста в поле.
   int x;
   int y;
 public:
@@ -25,7 +24,16 @@ public:
   TextEditor();
   TextEditor(const TextEditor &c);
   TextEditor(int _x, int _y);
-  friend ostream& operator << (ostream& stream, const TextEditor& a);
-  friend istream& operator >> (istream& stream, TextEditor& a);
+  bool operator==(const TextEditor& c);
+  friend bool operator==(const TextEditor &left, const TextEditor &right) {
+    bool res = false;
+    if (left.x == right.x && left.y == right.y) {
+      res = true;
+    }
+    else {
+      res = false;
+    }
+    return res;
+  }
 };
 #endif  // INCLUDE_ADD_H_

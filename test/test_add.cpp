@@ -23,3 +23,13 @@ TEST(TextEditor, hirvisnegative) {
   TextEditor hv;
   ASSERT_ANY_THROW(hv.iftext("text", 20));
 }
+
+TEST(TextEditor, constrs) {
+  TextEditor a(1, 1), b;
+  EXPECT_EQ(a, b);
+}
+
+TEST(TextEditor, constrss) {
+  TextEditor a, b(1, 1);
+  EXPECT_EQ(a, b);
+}

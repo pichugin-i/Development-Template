@@ -7,6 +7,22 @@ TextEditor::TextEditor() {
   y = 1;
 }
 
+TextEditor::TextEditor(const TextEditor &c) {
+  x = c.x;
+  y = c.y;
+}
+
+bool TextEditor::operator==(const TextEditor &c) {
+  bool res = 0;
+  if (x == c.x && y == c.y) {
+    res = 1;
+  }
+  else {
+    res = 0;
+  }
+  return res;
+}
+
 int TextEditor::options() {
   HWND window_header = GetConsoleWindow();
   SetWindowPos(window_header, HWND_TOP, 10, 10, 1000, 600, NULL);
@@ -185,13 +201,13 @@ int TextEditor::options() {
 }
 
 void TextEditor::position(int xpos, int ypos) {
+  if (xpos <= 0 || ypos <= 0)
+    throw logic_error("Input error xpos ypos");
   HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
   COORD cursorPos;
   cursorPos.X = xpos;
   cursorPos.Y = ypos;
   SetConsoleCursorPosition(hStdOut, cursorPos);
-  if (xpos <= 0 || ypos <= 0)
-    throw logic_error("Input error xpos ypos");
 }
 
 TextEditor::TextEditor(int _x, int _y) {
