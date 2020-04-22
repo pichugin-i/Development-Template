@@ -69,7 +69,7 @@ int TextEditor::options() {
       cout << "¬ведите Ў»–»Ќ” окна в пиксел€х: ";
       cin >> hir;
       system("CLS");
-    } while (hir > 1500 || hir < 230);
+    } while (hir > 1500 || hir < 600);
     do {
       position(45, 15);
       cout << "<Ўирина>x<высота> не должны превышать <1500>x<800>";
