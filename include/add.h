@@ -23,7 +23,17 @@ public:
   Date(const Date &c);
   void getdate();
   void inpsetdate();
-
+  friend bool operator==(const Date &left, const Date &right) {
+    bool res = false;
+    if (left.h_s[0] == right.h_s[0] && left.h_e[0] == right.h_e[0] && left.data[0] == right.data[0] && left.st == right.st && 
+      left.h_s[1] == right.h_s[1] && left.h_e[1] == right.h_e[1] && left.data[1] == right.data[1] && left.data[2] == right.data[2]) {
+      res = true;
+    }
+    else {
+      res = false;
+    }
+    return res;
+  }
   Date operator=(Date &c);
 };
 
@@ -49,13 +59,13 @@ public:
   }
   void setdate(Date new_data);
   void info();
-  int srmonth();
-  int maxmonth();
-  void show_maxmonth();
+  int srmonth(int month);
+  int maxmonth(int month);
+  void show_maxmonth(int month);
   void infile();
   void outfile();
   void onedate();
-  void show_srmonth();
+  void show_srmonth(int month);
   int inpmonth();
   int inpinfoday();
   int inpinfomonth();

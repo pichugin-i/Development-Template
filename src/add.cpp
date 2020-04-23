@@ -1,3 +1,5 @@
+#include "..\include\add.h"
+#include "..\include\add.h"
 #include "add.h"
 
 Date::Date() {
@@ -121,6 +123,7 @@ Pedometer Pedometer::operator=(Pedometer &c) {
 }
 
 void Pedometer::menu() {
+  int month;
   int w = 0;
   Date first_data;
 
@@ -155,10 +158,12 @@ void Pedometer::menu() {
       info();
     }
     if (w == 3) {
-      show_srmonth();
+      month = inpmonth();
+      show_srmonth(month);
     }
     if (w == 4) {
-      show_maxmonth();
+      month = inpmonth();
+      show_maxmonth(month);
     }
     if (w == 5) {
       infile();
@@ -308,12 +313,14 @@ int Pedometer::inpmonth() {
   return mon.data[1];
 }
 
-int Pedometer::srmonth() {
+int Pedometer::srmonth(int month) {
+  if (count == 0) {
+    count++;
+  }
   int k = 0;
   int res = 0;
   int rez = 0;
   int f;
-  int month = inpmonth();
   int *steep = new int;
   for (int i = 0; i < count; i++) {
     if (month == num[i].data[1]) {
@@ -348,8 +355,8 @@ int Pedometer::srmonth() {
   return rez;
 }
 
-void Pedometer::show_srmonth() {
-  int ress = srmonth();
+void Pedometer::show_srmonth(int month) {
+  int ress = srmonth(month);
   if (ress != 0) {
     cout << "Среднее количество шагов: " << ress << endl << endl;
   }
@@ -358,12 +365,14 @@ void Pedometer::show_srmonth() {
   }
 }
 
-int Pedometer::maxmonth() {
+int Pedometer::maxmonth(int month) {
+  if (count == 0) {
+    count++;
+  }
   int *steep = new int;
   int k = 0;
   int f;
   int ress = 0;
-  int month = inpmonth();
   if (count >= 2) {
     for (int i = 0; i < count; i++) {
       if (month == num[i].data[1]) {
@@ -399,8 +408,8 @@ int Pedometer::maxmonth() {
   return ress;
 }
 
-void Pedometer::show_maxmonth() {
-  int rezz = maxmonth();
+void Pedometer::show_maxmonth(int month) {
+  int rezz = maxmonth(month);
   if (rezz != 0) {
     cout << "Максимальное количество шагов: " << rezz << endl << endl;
   } else {
