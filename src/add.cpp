@@ -335,10 +335,6 @@ int Pedometer::srmonth() {
         if (month == num[i].data[1]) {
           rez = num[i].st;
         }
-        else {
-          if (month != num[i].data[1] && i == count - 1) {
-          }
-        }
       }
     }
   }
@@ -346,10 +342,6 @@ int Pedometer::srmonth() {
     for (int i = 0; i < count; i++) {
       if (month == num[i].data[1]) {
         rez = num[i].st;
-      }
-      else {
-        if (month != num[i].data[1] && i == count - 1) {
-        }
       }
     }
   }
@@ -394,10 +386,6 @@ int Pedometer::maxmonth() {
         if (month == num[i].data[1]) {
           ress = num[i].st;
         }
-        else {
-          if (month != num[i].data[1] && i == count - 1) {
-          }
-        }
       }
     }
   }
@@ -405,10 +393,6 @@ int Pedometer::maxmonth() {
     for (int i = 0; i < count; i++) {
       if (month == num[i].data[1]) {
         ress = num[i].st;
-      }
-      else {
-        if (month != num[i].data[1] && i == count - 1) {
-        }
       }
     }
   }
