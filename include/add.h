@@ -21,7 +21,6 @@ public:
   ~Date();
   Date(int *_h_s, int *_h_e, int *_data, int _st);
   Date(const Date &c);
-
   void getdate();
   void inpsetdate();
 
@@ -39,21 +38,22 @@ public:
   Pedometer(const Pedometer &c);
   Pedometer operator=(Pedometer &c);
   void setdate(Date new_data);
-  void info(int count);
-  void srmonth(int count);
-  void maxmonth(int count);
-  void infile(int count);
+  void info();
+  int srmonth();
+  int maxmonth();
+  void show_maxmonth();
+  void infile();
   void outfile();
   void onedate();
-
-  int inpmonth(int count);
-  int inpinfoday(int count);
-  int inpinfomonth(int count);
-  int inpinfoyear(int count);
-  int inpinfoh_s0(int count);
-  int inpinfoh_s1(int count);
-  int inpinfoh_e0(int count);
-  int inpinfoh_e1(int count);
+  void show_srmonth();
+  int inpmonth();
+  int inpinfoday();
+  int inpinfomonth();
+  int inpinfoyear();
+  int inpinfoh_s0();
+  int inpinfoh_s1();
+  int inpinfoh_e0();
+  int inpinfoh_e1();
   void menu();
 };
 #endif  // INCLUDE_ADD_H_

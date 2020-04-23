@@ -128,7 +128,7 @@ void Pedometer::menu() {
   (*this).setdate(first_data);
   first_data.inpsetdate();
 
-  infile(count);
+  infile();
   while (w != 8) {
     do {
       cout << "Меню управления вашим шагомером:" << endl;
@@ -152,16 +152,16 @@ void Pedometer::menu() {
       first_data.inpsetdate();
     }
     if (w == 2) {
-      info(count);
+      info();
     }
     if (w == 3) {
-      srmonth(count);
+      show_srmonth();
     }
     if (w == 4) {
-      maxmonth(count);
+      show_maxmonth();
     }
     if (w == 5) {
-      infile(count);
+      infile();
     }
     if (w == 6) {
       outfile();
@@ -215,10 +215,10 @@ void Pedometer::onedate() {
   else {
     cout << num[0].h_e[1] << endl;
   }
-  cout << "Шагов сделано за данный период: " << num[0].st;
+  cout << "Шагов сделано за данный период: " << num[0].st << endl << endl;
 }
 
-void Pedometer::infile(int count) {
+void Pedometer::infile() {
   ofstream in;
   in.open("Info.txt");
   for (int i = 0; i < count; i++) {
@@ -281,6 +281,7 @@ void Pedometer::outfile() {
   string str;
   ifstream out("Info.txt");
   if (!out.is_open()) {
+    throw logic_error("not find file");
     cout << "Не удалось открыть файл" << endl;
   }
   else {
@@ -293,7 +294,7 @@ void Pedometer::outfile() {
   out.close();
 }
 
-int Pedometer::inpmonth(int count) {
+int Pedometer::inpmonth() {
   Date mon;
   do {
     cout << endl << "Введите месяц, по которому найдется среднее кол-во шагов за весь период времени данного месяца:" << endl;
@@ -307,11 +308,12 @@ int Pedometer::inpmonth(int count) {
   return mon.data[1];
 }
 
-void Pedometer::srmonth(int count) {
+int Pedometer::srmonth() {
   int k = 0;
   int res = 0;
+  int rez = 0;
   int f;
-  int month = inpmonth(count);
+  int month = inpmonth();
   int *steep = new int;
   for (int i = 0; i < count; i++) {
     if (month == num[i].data[1]) {
@@ -326,16 +328,15 @@ void Pedometer::srmonth(int count) {
     }
     if (k > 1) {
       res = res / k;
-      cout << "Среднее количество шагов: " << res << endl << endl;
+      rez = res;
     }
     else {
       for (int i = 0; i < count; i++) {
         if (month == num[i].data[1]) {
-          cout << "Среднее количество шагов: " << num[i].st << endl << endl;
+          rez = num[i].st;
         }
         else {
           if (month != num[i].data[1] && i == count - 1) {
-            cout << "Не найдено подсчётов в этом месяце." << endl << endl;
           }
         }
       }
@@ -344,22 +345,33 @@ void Pedometer::srmonth(int count) {
   else {
     for (int i = 0; i < count; i++) {
       if (month == num[i].data[1]) {
-        cout << "Среднее количество шагов: " << num[i].st << endl << endl;
+        rez = num[i].st;
       }
       else {
         if (month != num[i].data[1] && i == count - 1) {
-          cout << "Не найдено подсчётов в этом месяце." << endl << endl;
         }
       }
     }
   }
+  return rez;
 }
 
-void Pedometer::maxmonth(int count) {
+void Pedometer::show_srmonth() {
+  int ress = srmonth();
+  if (ress != 0) {
+    cout << "Среднее количество шагов: " << ress << endl << endl;
+  }
+  else {
+    cout << "Не найдено подсчётов в этом месяце." << endl << endl;
+  }
+}
+
+int Pedometer::maxmonth() {
   int *steep = new int;
   int k = 0;
   int f;
-  int month = inpmonth(count);
+  int ress = 0;
+  int month = inpmonth();
   if (count >= 2) {
     for (int i = 0; i < count; i++) {
       if (month == num[i].data[1]) {
@@ -375,16 +387,15 @@ void Pedometer::maxmonth(int count) {
           max = steep[i];
         }
       }
-      cout << "Максимальное количество шагов: " << max << endl << endl;
+      ress = max;
     }
     else {
       for (int i = 0; i < count; i++) {
         if (month == num[i].data[1]) {
-          cout << "Максимальное количество шагов: " << num[i].st << endl << endl;
+          ress = num[i].st;
         }
         else {
           if (month != num[i].data[1] && i == count - 1) {
-            cout << "-------------------------" << endl;
           }
         }
       }
@@ -393,18 +404,27 @@ void Pedometer::maxmonth(int count) {
   else {
     for (int i = 0; i < count; i++) {
       if (month == num[i].data[1]) {
-        cout << "Максимальное количество шагов: " << num[i].st << endl << endl;
+        ress = num[i].st;
       }
       else {
         if (month != num[i].data[1] && i == count - 1) {
-          cout << "Не найдено подсчётов в этом месяце." << endl << endl;
         }
       }
     }
   }
+  return ress;
 }
 
-int Pedometer::inpinfoday(int count) {
+void Pedometer::show_maxmonth() {
+  int rezz = maxmonth();
+  if (rezz != 0) {
+    cout << "Максимальное количество шагов: " << rezz << endl << endl;
+  } else {
+    cout << "Не найдено подсчётов в этом месяце." << endl << endl;
+  }
+}
+
+int Pedometer::inpinfoday() {
   Date get;
   cout << "Введите дату, чтобы получить информацию о подсчётах. День,Месяц,Год:" << endl;
   do {
@@ -417,7 +437,7 @@ int Pedometer::inpinfoday(int count) {
   return get.data[0];
 }
 
-int Pedometer::inpinfomonth(int count) {
+int Pedometer::inpinfomonth() {
   Date get;
   do {
     cout << "Месяц[1-12]: ";
@@ -429,7 +449,7 @@ int Pedometer::inpinfomonth(int count) {
   return get.data[1];
 }
 
-int Pedometer::inpinfoyear(int count) {
+int Pedometer::inpinfoyear() {
   Date get;
   do {
     cout << "Год[Формат YYYY]: ";
@@ -441,7 +461,7 @@ int Pedometer::inpinfoyear(int count) {
   return get.data[2];
 }
 
-int Pedometer::inpinfoh_s0(int count) {
+int Pedometer::inpinfoh_s0() {
   Date get;
   cout << "Введите интервал времени активности. Час, минута (начала движения)" << endl;
   do {
@@ -454,7 +474,7 @@ int Pedometer::inpinfoh_s0(int count) {
   return get.h_s[0];
 }
 
-int Pedometer::inpinfoh_s1(int count) {
+int Pedometer::inpinfoh_s1() {
   Date get;
   do {
     cout << "Минута[0-59]: ";
@@ -466,7 +486,7 @@ int Pedometer::inpinfoh_s1(int count) {
   return get.h_s[1];
 }
 
-int Pedometer::inpinfoh_e0(int count) {
+int Pedometer::inpinfoh_e0() {
   Date get;
   cout << "Введите интервал времени активности. Час, минута (окончания движения)" << endl;
   do {
@@ -479,7 +499,7 @@ int Pedometer::inpinfoh_e0(int count) {
   return get.h_e[0];
 }
 
-int Pedometer::inpinfoh_e1(int count) {
+int Pedometer::inpinfoh_e1() {
   Date get;
   do {
     cout << "Минута[0-59]: ";
@@ -491,17 +511,17 @@ int Pedometer::inpinfoh_e1(int count) {
   return get.h_e[1];
 }
 
-void Pedometer::info(int count) {
+void Pedometer::info() {
 
   cout << endl;
   int *arr = new int[count];
-  int day = inpinfoday(count);
-  int month = inpinfomonth(count);
-  int year = inpinfoyear(count);
-  int hs0 = inpinfoh_s0(count);
-  int hs1 = inpinfoh_s1(count);
-  int he0 = inpinfoh_e0(count);
-  int he1 = inpinfoh_e1(count);
+  int day = inpinfoday();
+  int month = inpinfomonth();
+  int year = inpinfoyear();
+  int hs0 = inpinfoh_s0();
+  int hs1 = inpinfoh_s1();
+  int he0 = inpinfoh_e0();
+  int he1 = inpinfoh_e1();
   cout << endl;
   for (int i = 0, j = 1; i < count; i++) {
     if (day == num[i].data[0] && month == num[i].data[1] && year == num[i].data[2]) {
@@ -540,11 +560,6 @@ void Pedometer::info(int count) {
     }
   }
 }
-
-/*
-ОТДЕЛЬНОЕ ВЫПЫТЫВАНИЕ У ПОЛЬЗОВАТЕЛЯ ДАННЫХ О ЕГО АКТИВНОСТИ
-НЕ СРАЗУ В МАССИВ!!!!
-*/
 
 void Date::getdate() {
   cout << "Введите дату. День,Месяц,Год:" << endl;
@@ -612,13 +627,6 @@ void Date::getdate() {
   system("CLS");
 }
 
-
-/*
-
-ОТДЕЛЬНЫЙ ВЫВОД НА ЭКРАН ОТЧЁТА О ВВЕДЁННЫХ ДАННЫХ, КОТОРЫЕ БУДУТ ДОБАВЛЕНЫ (НАВЕРНОЕ ИЗБЫТОЧНО, НО РАЗ ТЕБЕ ОЧЕНЬ НУЖНА ЭТА ФУНКЦИЯ - ПУСТЬ БУДЕТ)
-
-*/
-
 void Date::inpsetdate() {
   cout << "Введенные вами данные:" << endl;
   cout << "Дата: ";
@@ -662,11 +670,6 @@ void Date::inpsetdate() {
   cout << "Шагов сделано за данный период: " << st << endl << endl;
 }
 
-/*
-
-ГЛАВНАЯ ФУНКЦИЯ ВСТАВЛЯЮЩАЯ ВЫПЫТАННЫЕ ДАННЫЕ В ТВОЙ МАССИВ ДАННЫХ
-
-*/
 void Pedometer::setdate(Date new_data) {
   Pedometer copy(*this);
   if (count != 0) {
