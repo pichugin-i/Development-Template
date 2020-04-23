@@ -37,6 +37,16 @@ public:
   Pedometer(int *h_s, int *h_e, int *data, int st);
   Pedometer(const Pedometer &c);
   Pedometer operator=(Pedometer &c);
+  friend bool operator==(const Pedometer &left, const Pedometer &right) {
+    bool res = false;
+    if (left.count == right.count) {
+      res = true;
+    }
+    else {
+      res = false;
+    }
+    return res;
+  }
   void setdate(Date new_data);
   void info();
   int srmonth();

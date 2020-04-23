@@ -11,6 +11,12 @@ TEST(Pemometeeeeer, openfileouttrue) {
   ASSERT_NO_THROW(rs.outfile());
 }
 
+TEST(Pemometeeeeer, constrcopy) {
+  Pedometer rs;
+  Pedometer rc(rs);
+  EXPECT_EQ(rs, rc);
+}
+
 /* 
 
 У меня с тестами, как знаете, очень туго ._. Не знаю какие писать тесты :(
