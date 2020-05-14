@@ -101,16 +101,52 @@ Credit Credit::operator=(Credit& c) {
 }
 
 void ProcCenter::getdate() {
-  cout << "Ваше имя (Пример: Ivan): ";
-  cin >> Dano[0];
-  cout << "Ваша Фамилия (Пример: Ivanov): ";
-  cin >> Dano[1];
-  cout << "Ваше Отчество (Пример: Ivanovich): ";
-  cin >> Dano[2];
-  cout << "Придумайте пароль (Пример: ivanpassword123): ";
-  cin >> password;
-  cout << "Сколько у вас денег: ";
-  cin >> money;
+  int i;
+  do {
+    cout << "Введите ваше <Имя>. Пример: Ivan. Длина имени от 3 до 15 символов: " << endl;
+    cout << "Ввод: ";
+    cin >> Dano[0];
+    i = Dano[0].length();
+    if (i < 3 || i>15) {
+      cout << "Длина имени зашла за границу допустимого. [3-12 символов]. Повторите попытку" << endl;
+    }
+  } while (i < 3 || i>15);
+  do {
+    cout << "Введите вашу <Фамилию>. Пример: Ivanov. Длина фамилии от 3 до 20 символов: " << endl;
+    cout << "Ввод: ";
+    cin >> Dano[1];
+    i = Dano[1].length();
+    if (i < 3 || i>20) {
+      cout << "Длина фамилии зашла за границу допустимого. [3-20 символов]. Повторите попытку" << endl;
+    }
+  } while (i < 3 || i>20);
+  do {
+    cout << "Введите ваше <Отчество>. Пример: Ivanovich. Длина отчества от 3 до 20 символов: " << endl;
+    cout << "Ввод: ";
+    cin >> Dano[2];
+    i = Dano[2].length();
+    if (i < 3 || i>20) {
+      cout << "Длина отчества зашла за границу допустимого. [3-20 символов]. Повторите попытку" << endl;
+    }
+  } while (i < 3 || i>20);
+  do {
+    cout << "Придумайте <Пароль>. Пример: Ivan123123. Длина пароля от 6 до 20 символов: " << endl;
+    cout << "Ввод: ";
+    cin >> password;
+    i = password.length();
+    if (i < 6 || i>20) {
+      cout << "Длина пароля зашла за границу допустимого. [6-20 символов]. Повторите попытку" << endl;
+    }
+  } while (i < 6 || i>20);
+  do {
+    cout << "Сколько у вас денег: " << endl;
+    cout << "Ввод: ";
+    cin >> money;
+    if (money < 0 || money>1000000000) {
+      cout << "Ваш счёт не может быть отрицательным или превышать 1.000.000.000 рублей." << endl;
+      cout << "Повторите попытку ввода." << endl;
+    }
+  } while (money < 0 || money>1000000000);
   system("CLS");
   cout << endl << "Вы успешно зарегестрированы." << endl << endl;
   het++;
@@ -122,6 +158,7 @@ void Credit::menu() {
   ProcCenter first_data;
   first_data.getdate();
   (*this).setdate(first_data);
+  first_data.infile();
 
   while (w != 8) {
     do {
@@ -137,7 +174,8 @@ void Credit::menu() {
       }
     } while (w < 1 || w>8);
     if (w == 1) {
-      first_data.inpsetdate();
+      cout << endl;
+      first_data.outfile();
     }
     if (w == 2) {
       system("CLS");
@@ -149,10 +187,38 @@ void Credit::menu() {
   }
 }
 
+void ProcCenter::infile() {
+  ofstream in;
+  in.open("Info.txt");
+    in << "Ваше Имя: "<< Dano[0] << endl;
+    in << "Ваша Фамилия: "<< Dano[1] << endl;
+    in << "Ваше Отчество: "<< Dano[2] << endl;
+    in << "Всего денег: "<< money << " RUB."<< endl;
+  in.close();
+}
+
+void ProcCenter::outfile() {
+  string str;
+  ifstream out("Info.txt");
+  if (!out.is_open()) {
+    throw logic_error("not find file");
+    cout << "Не удалось открыть файл" << endl;
+  }
+  else {
+    while (!out.eof()) {
+      str = "";
+      getline(out, str);
+      cout << str << endl;
+    }
+  }
+  out.close();
+}
+
 void Credit::exitandpreset() {
   int pre;
   int nomer;
   int index;
+  ProcCenter get;
   cout << "Вам доступны следущие действия: " << endl;
   do {
     cout << "<1> Войти в существующую учётную запись." << endl;
@@ -217,34 +283,36 @@ void Credit::exitandpreset() {
   }
   if (pre == 2) {
     system("CLS");
-    ProcCenter get;
     get.getdate();
+    get.infile();
   }
 }
 
 void ProcCenter::inpsetdate() {
   system("CLS");
-  cout << endl << "Текущая информация об аккаунте." << endl;
-  if (het < 10) {
-    cout << "Номер счёта: 000" << het << endl;
-  }
-  else {
-    if (het >= 10 && het < 100) {
-      cout << "Номер счёта: 00" << het << endl;
+  for (int i = 0; i < het; i++) {
+    cout << endl << "Текущая информация об аккаунте." << endl;
+    if (het < 10) {
+      cout << "Номер счёта: 000" << het << endl;
     }
     else {
-      if (het >= 100 && het < 1000) {
-        cout << "Номер счёта: 0" << het << endl;
+      if (het >= 10 && het < 100) {
+        cout << "Номер счёта: 00" << het << endl;
       }
       else {
-        cout << "Номер счёта: " << het << endl << endl;
+        if (het >= 100 && het < 1000) {
+          cout << "Номер счёта: 0" << het << endl;
+        }
+        else {
+          cout << "Номер счёта: " << het << endl << endl;
+        }
       }
     }
+    cout << "Имя: " << Dano[0] << endl;
+    cout << "Фамилия: " << Dano[1] << endl;
+    cout << "Отчество: " << Dano[2] << endl;
+    cout << "Всего денег: " << money << endl;
   }
-  cout << "Имя: " << Dano[0] << endl;
-  cout << "Фамилия: " << Dano[1] << endl;
-  cout << "Отчество: " << Dano[2] << endl;
-  cout << "Всего денег: " << money << endl;
 }
 
 void Credit::setdate(ProcCenter new_data) {

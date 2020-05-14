@@ -34,6 +34,8 @@ public:
     return res;
   }
   ProcCenter operator=(ProcCenter& c);
+  void infile();
+  void outfile();
 };
 
 class Credit {
