@@ -8,9 +8,10 @@ ProcCenter::ProcCenter() {
   password = '\0';
   money = 0;
   het = 0;
+  cred = 0;
 }
 
-ProcCenter::ProcCenter(string* _Dano, string _password, int _money, int _het) {
+ProcCenter::ProcCenter(string* _Dano, string _password, int _money, int _het, int _cred) {
   Dano = new string[3];
   for (int i = 0; i < 3; i++) {
     Dano[i] = _Dano[i];
@@ -18,6 +19,7 @@ ProcCenter::ProcCenter(string* _Dano, string _password, int _money, int _het) {
   password = _password;
   money = _money;
   het = _het;
+  cred = _cred;
 }
 
 ProcCenter::ProcCenter(const ProcCenter& c) {
@@ -28,6 +30,7 @@ ProcCenter::ProcCenter(const ProcCenter& c) {
   password = c.password;
   money = c.money;
   het = c.het;
+  cred = c.cred;
 }
 
 ProcCenter::~ProcCenter() {
@@ -35,6 +38,7 @@ ProcCenter::~ProcCenter() {
   password = '\0';
   money = 0;
   het = 0;
+  cred = 0;
 }
 
 Credit::Credit() {
@@ -54,10 +58,12 @@ ProcCenter ProcCenter::operator=(ProcCenter& c) {
   }
   money = c.money;
   password = c.password;
+  het = c.het;
+  cred = c.cred;
   return *this;
 }
 
-Credit::Credit(string* _Dano, string _password, int _money, int _het) {
+Credit::Credit(string* _Dano, string _password, int _money, int _het, int _cred) {
   arr = new ProcCenter[1];
   for (int i = 0; i < 3; i++) {
     arr[0].Dano[i] = _Dano[i];
@@ -65,6 +71,7 @@ Credit::Credit(string* _Dano, string _password, int _money, int _het) {
   arr[0].password = _password;
   arr[0].money = _money;
   arr[0].het = _het;
+  arr[0].cred = _cred;
 }
 
 Credit::Credit(const Credit& c) {
@@ -94,13 +101,14 @@ Credit Credit::operator=(Credit& c) {
     arr[i].money = c.arr[i].money;
     arr[i].password = c.arr[i].password;
     arr[i].het = c.arr[i].het;
+    arr[i].cred = c.arr[i].cred;
     for (int j = 0; j < 3; j++)
       arr[i].Dano[j] = c.arr[i].Dano[j];
   }
   return *this;
 }
 
-void ProcCenter::getdate() {
+int ProcCenter::getdate() {
   int i;
   do {
     cout << "Введите ваше <Имя>. Пример: Ivan. Длина имени от 3 до 15 символов: " << endl;
@@ -149,23 +157,26 @@ void ProcCenter::getdate() {
   } while (money < 0 || money>1000000000);
   system("CLS");
   cout << endl << "Вы успешно зарегестрированы." << endl << endl;
-  het++;
+  return het++;
 }
 
 void Credit::menu() {
   int w = 0;
+  int is=0;
+  int r=-10;
+  int or = 0;
   cout << "У вас еще нет аккаунта для интернет-банка. Зарегистрируйтесь:" << endl;
-  ProcCenter first_data;
-  first_data.getdate();
-  (*this).setdate(first_data);
-  first_data.infile();
+  ProcCenter first;
+  is = first.getdate();
+  (*this).setdate(first);
+  first.inpsetdate();
 
   while (w != 8) {
     do {
       cout << endl << "Меню действий интернет-банка:" << endl;
       cout << "<1> Показать информацию об аккаунте" << endl;
-      cout << "<2> Выйти из аккаунта" << endl;
-      cout << ".....Тут будут еще много действий......" << endl;
+      cout << "<2> Взять кредит" << endl;
+      cout << "<3> Выйти из аккаунта" << endl;
       cout << "<8> Выйти" << endl;
       cout << "Выбор: ";
       cin >> w;
@@ -175,11 +186,59 @@ void Credit::menu() {
     } while (w < 1 || w>8);
     if (w == 1) {
       cout << endl;
-      first_data.outfile();
+      if (count == 1) {
+        first.inpsetdate();
+      }
+      else {
+        if (r == -1) {
+          inf(is);
+          if (arr[is].cred == 0) {
+            cout << "Кредит: Не имеется" << endl;
+          }
+          else {
+            cout << "Кредит: " << arr[is].cred << " RUB.";
+          }
+        }
+        else {
+          inf(or);
+          if (arr[or].cred == 0) {
+            cout << "Кредит: Не имеется" << endl;
+          }
+          else {
+            cout << "Кредит: " << arr[or].cred << " RUB.";
+          }
+        }
+      }
+
     }
     if (w == 2) {
+      creditmenu(is, or, r);
+    }
+    if (w == 3) {
       system("CLS");
-      exitandpreset();
+      r = exitandpreset();
+      if (r == -1) {
+        system("CLS");
+        is = first.getdate();
+        (*this).setdate(first);
+        inf(is);
+        if (arr[is].cred == 0) {
+          cout << "Кредит: Не имеется" << endl;
+        }
+        else {
+          cout << "Кредит: " << arr[is].cred << " RUB.";
+        }
+      }
+      else {
+        or = r;
+        inf(r);
+        if (arr[r].cred == 0) {
+          cout << "Кредит: Не имеется" << endl;
+        }
+        else {
+          cout << "Кредит: " << arr[r].cred << " RUB.";
+        }
+      }
     }
     if (w == 8) {
       system("pause");
@@ -187,37 +246,115 @@ void Credit::menu() {
   }
 }
 
-void ProcCenter::infile() {
-  ofstream in;
-  in.open("Info.txt");
-    in << "Ваше Имя: "<< Dano[0] << endl;
-    in << "Ваша Фамилия: "<< Dano[1] << endl;
-    in << "Ваше Отчество: "<< Dano[2] << endl;
-    in << "Всего денег: "<< money << " RUB."<< endl;
-  in.close();
-}
+void Credit::creditmenu(int is, int or , int r) {
+  int non = 0;
 
-void ProcCenter::outfile() {
-  string str;
-  ifstream out("Info.txt");
-  if (!out.is_open()) {
-    throw logic_error("not find file");
-    cout << "Не удалось открыть файл" << endl;
+  system("CLS");
+  if (non == 1) {
+    cout << endl << "Вы уже имеете кредит." << endl << endl;
   }
   else {
-    while (!out.eof()) {
-      str = "";
-      getline(out, str);
-      cout << str << endl;
+    if (count == 1) {
+      do {
+        system("CLS");
+        if (arr[0].cred < 1000 || arr[0].cred >500000) {
+          cout << "Повторите попытку ввода." << endl;
+        }
+        cout << "Ввод суммы кредита, которую вы хотите получить." << endl;
+        cout << "Минимальная сумма получения = 1.000 RUB. Максимальная = 500.000 RUB" << endl;
+        cout << "Ввод >> ";
+        cin >> arr[0].cred;
+      } while (arr[0].cred < 1000 || arr[0].cred >500000);
+    }
+    else {
+      if (r == -1) {
+        do {
+          system("CLS");
+          if (arr[is].cred < 1000 || arr[is].cred >500000) {
+            cout << "Повторите попытку ввода." << endl;
+          }
+          cout << "Ввод суммы кредита, которую вы хотите получить." << endl;
+          cout << "Минимальная сумма получения = 1.000 RUB. Максимальная = 500.000 RUB" << endl;
+          cout << "Ввод >> ";
+          cin >> arr[is].cred;
+        } while (arr[is].cred < 1000 || arr[is].cred >500000);
+      }
+      else {
+        do {
+          system("CLS");
+          if (arr[or ].cred < 1000 || arr[or ].cred >500000) {
+            cout << "Повторите попытку ввода." << endl;
+          }
+          cout << "Ввод суммы кредита, которую вы хотите получить." << endl;
+          cout << "Минимальная сумма получения = 1.000 RUB. Максимальная = 500.000 RUB" << endl;
+          cout << "Ввод >> ";
+          cin >> arr[or ].cred;
+        } while (arr[or ].cred < 1000 || arr[or ].cred >500000);
+      }
     }
   }
-  out.close();
 }
 
-void Credit::exitandpreset() {
+void Credit::inf(int r) {
+  system("CLS");
+  cout << endl << "Текущая информация об аккаунте." << endl;
+  if (r + 1 < 10) {
+    cout << "Номер счёта: 000" << r + 1 << endl;
+  }
+  else {
+    if (r + 1 >= 10 && r + 1 < 100) {
+      cout << "Номер счёта: 00" << r + 1 << endl;
+    }
+    else {
+      if (r + 1 >= 100 && r + 1 < 1000) {
+        cout << "Номер счёта: 0" << r + 1 << endl;
+      }
+      else {
+        cout << "Номер счёта: " << r + 1 << endl << endl;
+      }
+    }
+  }
+  cout << "Фамилия: " << arr[r].Dano[1] << endl;
+  cout << "Имя: " << arr[r].Dano[0] << endl;
+  cout << "Отчество: " << arr[r].Dano[2] << endl;
+  cout << "Всего денег: " << arr[r].money << " RUB." << endl;
+}
+
+//void Credit::infile() {
+//  ofstream in;
+//  in.open("Info.txt");
+//  for (int i = 0; i < count; i++) {
+//    in << "Ваше Имя: " << arr[i].Dano[0] << endl;
+//    in << "Ваша Фамилия: " << arr[i].Dano[1] << endl;
+//    in << "Ваше Отчество: " << arr[i].Dano[2] << endl;
+//    in << "Всего денег: " << arr[i].money << " RUB." << endl;
+//  }
+//  in.close();
+//}
+//
+//void Credit::outfile() {
+//  string str;
+//  ifstream out("Info.txt");
+//  if (!out.is_open()) {
+//    throw logic_error("not find file");
+//    cout << "Не удалось открыть файл" << endl;
+//  }
+//  else {
+//    while (!out.eof()) {
+//      str = "";
+//      getline(out, str);
+//      cout << str << endl;
+//    }
+//  }
+//  out.close();
+//}
+
+int Credit::exitandpreset() {
   int pre;
   int nomer;
-  int index;
+  int index=0;
+  int ex;
+  int reg = -1;
   ProcCenter get;
   cout << "Вам доступны следущие действия: " << endl;
   do {
@@ -243,14 +380,14 @@ void Credit::exitandpreset() {
       cout << "Введите пароль от данного номера счёта: ";
       cin >> p;
       for (int i = 0; i < count; i++) {
-        if (p == arr[i].password) {
+        if (p == arr[i].password && nomer == i+1) {
           index = i;
           system("CLS");
           cout << "Вы успешно вошли в аккаунт." << endl << endl;
-
+          return index;
         }
         else {
-          if (p != arr[i].password && i + 1 <= count) {
+          if (p != arr[i].password && i + 1 == count) {
             if (nomer < 10) {
               cout << "Вы ввели неверный пароль для счёта #000" << nomer << endl;
               cout << "Возвращение в меню действий." << endl << endl;
@@ -271,8 +408,8 @@ void Credit::exitandpreset() {
                 }
               }
             }
+            exitandpreset();
           }
-          exitandpreset();
         }
       }
     }
@@ -282,15 +419,13 @@ void Credit::exitandpreset() {
     }
   }
   if (pre == 2) {
-    system("CLS");
-    get.getdate();
-    get.infile();
+    return reg;
   }
+
 }
 
 void ProcCenter::inpsetdate() {
   system("CLS");
-  for (int i = 0; i < het; i++) {
     cout << endl << "Текущая информация об аккаунте." << endl;
     if (het < 10) {
       cout << "Номер счёта: 000" << het << endl;
@@ -312,10 +447,15 @@ void ProcCenter::inpsetdate() {
     cout << "Фамилия: " << Dano[1] << endl;
     cout << "Отчество: " << Dano[2] << endl;
     cout << "Всего денег: " << money << endl;
-  }
+    if (cred == 0) {
+      cout << "Кредит: Не имеется" << endl;
+    }
+    else {
+      cout << "Кредит: " << cred << " RUB.";
+    }
 }
 
-void Credit::setdate(ProcCenter new_data) {
+void Credit::setdate(ProcCenter first) {
   Credit copy(*this);
   if (count != 0) {
     delete[] arr;
@@ -325,5 +465,5 @@ void Credit::setdate(ProcCenter new_data) {
   for (int i = 0; i < count - 1; ++i) {
     arr[i] = copy.arr[i];
   }
-  arr[count - 1] = new_data;
+  arr[count - 1] = first;
 }
