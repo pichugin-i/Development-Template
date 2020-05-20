@@ -40,6 +40,7 @@ public:
   ProcCenter operator=(ProcCenter& c);
 };
 
+
 class Credit {
 private:
   int count = 0;
