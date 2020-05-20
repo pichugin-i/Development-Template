@@ -10,6 +10,7 @@ ProcCenter::ProcCenter() {
   het = 0;
   cred = 0;
   srokk = 0;
+  viplat = 0;
 }
 
 ProcCenter::ProcCenter(string* _Dano, string _password, int _money, int _het, int _cred, int _srokk, int _viplat) {
@@ -350,6 +351,7 @@ void Credit::dosrochno(int is, int or , int r) {
       if (proverka < 0) {
         system("CLS");
         cout << endl << "Кредит не может быть погашен досрочно." << endl << endl;
+
       }
       else {
         arr[0].money = arr[0].money - (nado * arr[0].viplat);
@@ -972,7 +974,7 @@ int Credit::algoritm(int stavka, int var, int non) {
 
 int Credit::two(int is, int or , int r, int non) {
   int stavka=0;
-  int var = 1;
+  int var = 2;
   int cred1;
   if (non < 100000) {
     stavka = 19;
@@ -998,7 +1000,7 @@ int Credit::two(int is, int or , int r, int non) {
 
 int Credit::three(int is, int or , int r, int non) {
   int stavka=0;
-  int var = 1;
+  int var = 3;
   int cred1;
   if (non < 100000) {
     stavka = 12;
@@ -1024,7 +1026,7 @@ int Credit::three(int is, int or , int r, int non) {
 
 int Credit::four(int is, int or , int r, int non) {
   int stavka=0;
-  int var = 1;
+  int var = 4;
   int cred1;
   if (non < 100000) {
     stavka = 10;
@@ -1050,7 +1052,7 @@ int Credit::four(int is, int or , int r, int non) {
 
 int Credit::five(int is, int or , int r, int non) {
   int stavka=0;
-  int var = 1;
+  int var = 5;
   int cred1;
   if (non < 100000) {
     stavka = 5;
