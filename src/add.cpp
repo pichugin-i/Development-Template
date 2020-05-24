@@ -96,8 +96,8 @@ void Zmeika::startmenu() {
     } while (win < 5 || win>100);
     p.positiontext(53, 6);
     cout << "Игра <Змейка>";
-    p.positiontext(45, 7);
-    cout << "Управление: WASD или Стрелочки";
+    p.positiontext(50, 7);
+    cout << "Управление: Стрелки";
     p.positiontext(30, 11);
     cout << "Чтобы начать игру, нажмите любую кнопку (У вас нет выбора ._.)";
     p.positiontext(58, 12);
@@ -203,26 +203,6 @@ void Zmeika::Input() {
   if (_kbhit()) {
     switch (_getch())
     {
-    case 97:
-      if (dir != eD::RIGHT || count == 0) {
-        dir = eD::LEFT; 
-      }
-      break;
-    case 100:
-      if (dir != eD::LEFT || count == 0) {
-        dir = eD::RIGHT;
-      }
-      break;
-    case 119:
-      if (dir != eD::DOWN || count == 0) {
-        dir = eD::UP;
-      }
-      break;
-    case 115:
-      if (dir != eD::UP || count == 0) {
-        dir = eD::DOWN;
-      }
-      break;
     case 0x4B:
       if (dir != eD::RIGHT || count == 0) {
         dir = eD::LEFT;
