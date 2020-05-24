@@ -1,6 +1,9 @@
 #include "add.h"
-#include <iostream>
+
+using namespace std;
 
 int main() {
-  std::cout << "5 + 5 = " << add(5, 5) << std::endl;
+  setlocale(LC_ALL, "Russian");
+  Zmeika a;
+  a.startmenu();
 }
