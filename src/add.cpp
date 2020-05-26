@@ -264,7 +264,7 @@ void Zmeika::Logic(int w) {
       count++;
     break;
   }
-  if (w != 1 || w != 2) {
+  if ((w != 1) && (w != 2)) {
     throw std::logic_error("Input error: wrong number!");
   }
   else {
