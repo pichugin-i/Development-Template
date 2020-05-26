@@ -264,27 +264,34 @@ void Zmeika::Logic(int w) {
       count++;
     break;
   }
-  if (w == 1) {
-    if (x >= hir) {
-      x = 0;
-    }
-    else {
-      if (x < 0) {
-        x = hir - 1;
-      }
-    }
-    if (y >= vis) {
-      y = 0;
-    }
-    else {
-      if (y < 0) {
-        y = vis - 1;
-      }
-    }
+  if (w != 1 || w != 2) {
+    throw std::logic_error("Input error: wrong number!");
   }
   else {
-    if (x > hir || x<0 || y>vis || y < 0) {
-      end = true;
+    if (w == 1) {
+      if (x >= hir) {
+        x = 0;
+      }
+      else {
+        if (x < 0) {
+          x = hir - 1;
+        }
+      }
+      if (y >= vis) {
+        y = 0;
+      }
+      else {
+        if (y < 0) {
+          y = vis - 1;
+        }
+      }
+    }
+    else {
+      if (w == 2) {
+        if (x > hir || x<0 || y>vis || y < 0) {
+          end = true;
+        }
+      }
     }
   }
   for (int i = 0; i < count; i++) {
